@@ -1,155 +1,1124 @@
-// Blog académico del Colegio Tlahtoani
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-const COLORS = {
-  primary: "#004080",
-  accent: "#FF6A00"
-};
-
-const mockInvestigaciones = [
-  { id: 1, titulo: "La biodiversidad en México", autor: "Ana López", resumen: "Exploración de ecosistemas mexicanos...", contenido: "Texto completo de la investigación sobre biodiversidad..." },
-  { id: 2, titulo: "Matemáticas en la vida cotidiana", autor: "Carlos Pérez", resumen: "Ejemplos del uso diario de las matemáticas...", contenido: "Texto completo de la investigación sobre matemáticas..." }
-];
-
-export default function BlogTlahtoani() {
-  const [vista, setVista] = useState("investigaciones");
-  const [investigaciones, setInvestigaciones] = useState(mockInvestigaciones);
-  const [seleccionada, setSeleccionada] = useState(null);
-  const [usuario, setUsuario] = useState(null);
-  const [credenciales, setCredenciales] = useState({ email: "", password: "" });
-  const [nueva, setNueva] = useState({ titulo: "", autor: "", resumen: "", contenido: "" });
-
-  const login = () => {
-    if (credenciales.email === "juanpahdezreyes11@gmail.com" && credenciales.password === "Cdmv6058Pd2kb3a$") {
-      setUsuario(credenciales.email);
-      setVista("investigaciones");
-    } else {
-      alert("Credenciales incorrectas");
-    }
-  };
-
-  const logout = () => {
-    setUsuario(null);
-    setCredenciales({ email: "", password: "" });
-  };
-
-  const agregarInvestigacion = () => {
-    const nuevaInv = { ...nueva, id: Date.now() };
-    setInvestigaciones([...investigaciones, nuevaInv]);
-    setNueva({ titulo: "", autor: "", resumen: "", contenido: "" });
-  };
-
-  const eliminarInvestigacion = (id) => {
-    if (confirm("¿Estás seguro de eliminar esta investigación?")) {
-      setInvestigaciones(investigaciones.filter(inv => inv.id !== id));
-      setSeleccionada(null);
-    }
-  };
-
-  const autoresUnicos = [...new Set(investigaciones.map(inv => inv.autor))];
-  const [autorFiltro, setAutorFiltro] = useState("");
-
-  const investigacionesFiltradas = autorFiltro
-    ? investigaciones.filter(inv => inv.autor === autorFiltro)
-    : investigaciones;
-
-  return (
-    <div className="min-h-screen p-4" style={{ backgroundColor: "#f0f4ff", color: COLORS.primary }}>
-      <header className="flex flex-col sm:flex-row justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold">Colegio Tlahtoani - Investigaciones</h1>
-        <TabsList>
-          <TabsTrigger onClick={() => setVista("investigaciones")}>Investigaciones</TabsTrigger>
-          <TabsTrigger onClick={() => setVista("autores")}>Autores</TabsTrigger>
-          <TabsTrigger onClick={() => setVista("acerca")}>Acerca de</TabsTrigger>
-          {usuario ? (
-            <TabsTrigger onClick={logout} style={{ color: COLORS.accent }}>Cerrar sesión</TabsTrigger>
-          ) : (
-            <TabsTrigger onClick={() => setVista("login")} style={{ color: COLORS.accent }}>Iniciar sesión</TabsTrigger>
-          )}
-        </TabsList>
-      </header>
-
-      {vista === "investigaciones" && (
-        <div>
-          <p className="mb-4">Bienvenidos al blog académico del Colegio Tlahtoani. Aquí encontrarán investigaciones realizadas por nuestros estudiantes.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {investigaciones.map(inv => (
-              <Card key={inv.id}>
-                <CardContent>
-                  <h2 className="text-xl font-semibold">{inv.titulo}</h2>
-                  <p className="text-sm italic">por {inv.autor}</p>
-                  <p className="my-2">{inv.resumen}</p>
-                  <Button onClick={() => setSeleccionada(inv)}>Leer más</Button>
-                  {usuario && <Button onClick={() => eliminarInvestigacion(inv.id)} className="ml-2" variant="destructive">Eliminar</Button>}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          {usuario && (
-            <div className="mt-8 p-4 border rounded-lg bg-white">
-              <h2 className="text-xl font-semibold mb-2">Nueva investigación</h2>
-              <Input placeholder="Título" value={nueva.titulo} onChange={e => setNueva({ ...nueva, titulo: e.target.value })} className="mb-2" />
-              <Input placeholder="Autor" value={nueva.autor} onChange={e => setNueva({ ...nueva, autor: e.target.value })} className="mb-2" />
-              <Textarea placeholder="Resumen" value={nueva.resumen} onChange={e => setNueva({ ...nueva, resumen: e.target.value })} className="mb-2" />
-              <Textarea placeholder="Contenido completo" value={nueva.contenido} onChange={e => setNueva({ ...nueva, contenido: e.target.value })} className="mb-2" />
-              <Button onClick={agregarInvestigacion} style={{ backgroundColor: COLORS.accent, color: "white" }}>Subir investigación</Button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investigaciones - Colegio Tlahtoani</title>
+    <style>
+        :root {
+            --azul-primario: #1a3e72;
+            --azul-secundario: #2c5aa0;
+            --naranja-accento: #f39c12;
+            --naranja-claro: #f8b45c;
+            --gris-claro: #f5f5f5;
+            --gris-medio: #e0e0e0;
+            --gris-oscuro: #757575;
+            --blanco: #ffffff;
+            --negro: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--gris-claro);
+            color: var(--negro);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--azul-primario);
+            color: var(--blanco);
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--naranja-accento);
+            border-bottom: 2px solid var(--naranja-accento);
+        }
+        
+        .active {
+            color: var(--naranja-accento);
+            border-bottom: 2px solid var(--naranja-accento);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--blanco);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .welcome-section {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--naranja-accento);
+        }
+        
+        .welcome-section h2 {
+            color: var(--azul-primario);
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-section p {
+            color: var(--gris-oscuro);
+        }
+        
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .research-card {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .research-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-image {
+            height: 180px;
+            background-color: var(--azul-secundario);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanco);
+            font-size: 2rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            color: var(--azul-primario);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-content .author {
+            color: var(--naranja-accento);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .card-content .date {
+            color: var(--gris-oscuro);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .card-content p {
+            color: var(--gris-oscuro);
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .read-more {
+            display: inline-block;
+            background-color: var(--naranja-accento);
+            color: var(--blanco);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .read-more:hover {
+            background-color: var(--naranja-claro);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--blanco);
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gris-oscuro);
+        }
+        
+        .modal-title {
+            color: var(--azul-primario);
+            margin-bottom: 1rem;
+        }
+        
+        .modal-author {
+            color: var(--naranja-accento);
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-date {
+            color: var(--gris-oscuro);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .modal-body {
+            line-height: 1.8;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 2rem auto;
+            background-color: var(--blanco);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .login-form h2 {
+            color: var(--azul-primario);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--azul-primario);
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gris-medio);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--naranja-accento);
+        }
+        
+        .login-btn {
+            width: 100%;
+            background-color: var(--naranja-accento);
+            color: var(--blanco);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: var(--naranja-claro);
+        }
+        
+        .logout-btn {
+            background-color: transparent;
+            color: var(--blanco);
+            border: 1px solid var(--blanco);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 1.5rem;
+        }
+        
+        .logout-btn:hover {
+            background-color: var(--blanco);
+            color: var(--azul-primario);
+        }
+        
+        .new-research-btn {
+            display: inline-block;
+            background-color: var(--naranja-accento);
+            color: var(--blanco);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .new-research-btn:hover {
+            background-color: var(--naranja-claro);
+        }
+        
+        .research-form {
+            background-color: var(--blanco);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .research-form h2 {
+            color: var(--azul-primario);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--azul-primario);
+            font-weight: 500;
+        }
+        
+        .form-control input,
+        .form-control textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gris-medio);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-control textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-control input:focus,
+        .form-control textarea:focus {
+            outline: none;
+            border-color: var(--naranja-accento);
+        }
+        
+        .submit-btn {
+            background-color: var(--naranja-accento);
+            color: var(--blanco);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--naranja-claro);
+        }
+        
+        .delete-btn {
+            background-color: #e74c3c;
+            color: var(--blanco);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .authors-list {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .authors-list h2 {
+            color: var(--azul-primario);
+            margin-bottom: 1.5rem;
+        }
+        
+        .author-filter {
+            margin-bottom: 1.5rem;
+        }
+        
+        .author-filter input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gris-medio);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .author-filter input:focus {
+            outline: none;
+            border-color: var(--naranja-accento);
+        }
+        
+        .author-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .author-card {
+            background-color: var(--gris-claro);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .author-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--azul-secundario);
+            color: var(--blanco);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .author-name {
+            color: var(--azul-primario);
+            margin-bottom: 0.5rem;
+        }
+        
+        .author-research-count {
+            color: var(--naranja-accento);
+            font-size: 0.9rem;
+        }
+        
+        .about-section {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .about-section h2 {
+            color: var(--azul-primario);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-section p {
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: var(--azul-primario);
+            color: var(--blanco);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        
+        .confirmation-content {
+            background-color: var(--blanco);
+            margin: 20% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .confirmation-buttons {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .confirmation-buttons button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .confirm-btn {
+            background-color: #e74c3c;
+            color: var(--blanco);
+            border: none;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .cancel-btn {
+            background-color: var(--gris-medio);
+            color: var(--negro);
+            border: none;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #bdbdbd;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                width: 100%;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .hamburger {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            .logout-btn {
+                margin: 1rem 0 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>Investigaciones Tlahtoani</h1>
             </div>
-          )}
-          {seleccionada && (
-            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
-              <div className="bg-white p-6 rounded-lg max-w-lg w-full">
-                <h2 className="text-2xl font-bold mb-2">{seleccionada.titulo}</h2>
-                <p className="italic mb-4">por {seleccionada.autor}</p>
-                <p>{seleccionada.contenido}</p>
-                <Button onClick={() => setSeleccionada(null)} className="mt-4">Cerrar</Button>
-              </div>
+            <div class="hamburger" id="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
-          )}
+            <nav id="nav">
+                <ul>
+                    <li><a href="#" class="active" id="nav-investigaciones">Investigaciones</a></li>
+                    <li><a href="#" id="nav-autores">Autores</a></li>
+                    <li><a href="#" id="nav-acerca">Acerca de</a></li>
+                    <li><a href="#" id="nav-login">Iniciar sesión</a></li>
+                    <li><button class="logout-btn" id="logout-btn" style="display: none;">Cerrar sesión</button></li>
+                </ul>
+            </nav>
         </div>
-      )}
-
-      {vista === "autores" && (
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Filtrar por autor</h2>
-          <select className="mb-4" value={autorFiltro} onChange={e => setAutorFiltro(e.target.value)}>
-            <option value="">Todos</option>
-            {autoresUnicos.map(autor => <option key={autor}>{autor}</option>)}
-          </select>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {investigacionesFiltradas.map(inv => (
-              <Card key={inv.id}>
-                <CardContent>
-                  <h2 className="text-xl font-semibold">{inv.titulo}</h2>
-                  <p className="text-sm italic">por {inv.autor}</p>
-                  <p className="my-2">{inv.resumen}</p>
-                  <Button onClick={() => setSeleccionada(inv)}>Leer más</Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+    </header>
+    
+    <main>
+        <!-- Sección de Investigaciones -->
+        <section id="investigaciones-section">
+            <div class="welcome-section">
+                <h2>Bienvenido al Blog de Investigaciones del Colegio Tlahtoani</h2>
+                <p>Explora las investigaciones realizadas por nuestros estudiantes. Este espacio está dedicado a compartir conocimiento, fomentar la curiosidad científica y promover el aprendizaje colaborativo.</p>
+            </div>
+            
+            <div id="new-research-container" style="display: none;">
+                <a href="#" class="new-research-btn" id="new-research-btn">Nueva Investigación</a>
+            </div>
+            
+            <div id="research-form-container" style="display: none;">
+                <div class="research-form">
+                    <h2>Crear Nueva Investigación</h2>
+                    <form id="research-form">
+                        <div class="form-control">
+                            <label for="research-title">Título</label>
+                            <input type="text" id="research-title" required>
+                        </div>
+                        <div class="form-control">
+                            <label for="research-author">Autor</label>
+                            <input type="text" id="research-author" required>
+                        </div>
+                        <div class="form-control">
+                            <label for="research-content">Contenido</label>
+                            <textarea id="research-content" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Publicar Investigación</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="research-grid" id="research-grid">
+                <!-- Las tarjetas de investigación se generarán aquí con JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Sección de Autores -->
+        <section id="autores-section" style="display: none;">
+            <div class="authors-list">
+                <h2>Autores</h2>
+                <div class="author-filter">
+                    <input type="text" id="author-search" placeholder="Buscar autor...">
+                </div>
+                <div class="author-cards" id="author-cards">
+                    <!-- Las tarjetas de autores se generarán aquí con JavaScript -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección Acerca de -->
+        <section id="acerca-section" style="display: none;">
+            <div class="about-section">
+                <h2>Acerca del Blog de Investigaciones</h2>
+                <p>El Blog de Investigaciones del Colegio Tlahtoani es una plataforma creada para que los estudiantes puedan compartir sus trabajos de investigación con la comunidad escolar.</p>
+                <p>Nuestro objetivo es fomentar la investigación científica, el pensamiento crítico y la difusión del conocimiento entre los estudiantes.</p>
+                <p>Este espacio está abierto a todas las áreas del conocimiento y promueve la colaboración entre estudiantes de diferentes grados y especialidades.</p>
+                <p>Los colores institucionales (azul y naranja) representan nuestra identidad escolar, donde el azul simboliza la sabiduría y el conocimiento, mientras que el naranja representa la energía y creatividad de nuestros estudiantes.</p>
+            </div>
+        </section>
+        
+        <!-- Sección de Inicio de Sesión -->
+        <section id="login-section" style="display: none;">
+            <div class="login-form">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="login-btn">Iniciar Sesión</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Modal para mostrar investigación completa -->
+    <div class="modal" id="research-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2 class="modal-title" id="modal-title">Título de la Investigación</h2>
+            <div class="modal-author" id="modal-author">Autor: Nombre del Autor</div>
+            <div class="modal-date" id="modal-date">Fecha: 01/01/2023</div>
+            <div class="modal-body" id="modal-body">
+                <p>Contenido completo de la investigación...</p>
+            </div>
+            <div id="modal-actions" style="display: none;">
+                <button class="delete-btn" id="delete-research-btn">Eliminar Investigación</button>
+            </div>
         </div>
-      )}
-
-      {vista === "acerca" && (
-        <div>
-          <h2 className="text-xl font-bold mb-4">Acerca del blog</h2>
-          <p>Este espacio ha sido creado para fomentar la investigación y difusión del conocimiento entre los estudiantes del Colegio Tlahtoani.</p>
-        </div>
-      )}
-
-      {vista === "login" && (
-        <div className="max-w-md mx-auto">
-          <h2 className="text-xl font-bold mb-4">Iniciar sesión</h2>
-          <Input placeholder="Correo electrónico" value={credenciales.email} onChange={e => setCredenciales({ ...credenciales, email: e.target.value })} className="mb-2" />
-          <Input type="password" placeholder="Contraseña" value={credenciales.password} onChange={e => setCredenciales({ ...credenciales, password: e.target.value })} className="mb-2" />
-          <Button onClick={login} style={{ backgroundColor: COLORS.primary, color: "white" }}>Entrar</Button>
-        </div>
-      )}
     </div>
-  );
-}
+    
+    <!-- Modal de confirmación para eliminar -->
+    <div class="confirmation-modal" id="confirmation-modal">
+        <div class="confirmation-content">
+            <h3>¿Estás seguro que deseas eliminar esta investigación?</h3>
+            <p>Esta acción no se puede deshacer.</p>
+            <div class="confirmation-buttons">
+                <button class="confirm-btn" id="confirm-delete">Eliminar</button>
+                <button class="cancel-btn" id="cancel-delete">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2023 Colegio Tlahtoani - Todos los derechos reservados</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Datos de ejemplo (en un caso real, estos vendrían de una base de datos)
+        let researches = [
+            {
+                id: 1,
+                title: "El impacto de las redes sociales en el aprendizaje",
+                author: "María González",
+                date: "15/05/2023",
+                content: "Esta investigación explora cómo las redes sociales afectan el rendimiento académico de los estudiantes de secundaria. Se realizó un estudio con 200 alumnos de diferentes escuelas, analizando el tiempo que pasan en redes sociales y su correlación con las calificaciones. Los resultados muestran que un uso moderado puede ser beneficioso para el aprendizaje colaborativo, pero el exceso tiene efectos negativos significativos.",
+                image: "social"
+            },
+            {
+                id: 2,
+                title: "Energías renovables: el futuro de México",
+                author: "Juan Pérez",
+                date: "22/04/2023",
+                content: "Análisis del potencial de México para convertirse en líder en energías renovables. La investigación compara los recursos naturales disponibles con las políticas energéticas actuales y propone un plan para aumentar la producción de energía solar y eólica en un 50% para 2030. Se incluyen estudios de caso de comunidades rurales que ya han implementado estas tecnologías con éxito.",
+                image: "energy"
+            },
+            {
+                id: 3,
+                title: "Inteligencia artificial en la educación",
+                author: "Ana López",
+                date: "10/03/2023",
+                content: "Exploración de las aplicaciones de la IA en el ámbito educativo. La investigación detalla cómo los sistemas de aprendizaje adaptativo pueden personalizar la educación para cada estudiante, analizando sus fortalezas y debilidades. También se discuten los desafíos éticos y la importancia de mantener el elemento humano en la enseñanza.",
+                image: "ai"
+            },
+            {
+                id: 4,
+                title: "Conservación de la biodiversidad local",
+                author: "Carlos Martínez",
+                date: "28/02/2023",
+                content: "Estudio de 12 meses sobre las especies endémicas de nuestra región y los peligros que enfrentan debido a la urbanización. La investigación incluye un catálogo detallado de 45 especies de plantas y 23 de animales, con recomendaciones para programas de conservación que pueden implementarse en colaboración con la comunidad escolar.",
+                image: "nature"
+            }
+        ];
+        
+        // Variables de estado
+        let currentUser = null;
+        let currentResearchId = null;
+        
+        // Elementos del DOM
+        const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+        const navInvestigaciones = document.getElementById('nav-investigaciones');
+        const navAutores = document.getElementById('nav-autores');
+        const navAcerca = document.getElementById('nav-acerca');
+        const navLogin = document.getElementById('nav-login');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        const investigacionesSection = document.getElementById('investigaciones-section');
+        const autoresSection = document.getElementById('autores-section');
+        const acercaSection = document.getElementById('acerca-section');
+        const loginSection = document.getElementById('login-section');
+        
+        const newResearchContainer = document.getElementById('new-research-container');
+        const newResearchBtn = document.getElementById('new-research-btn');
+        const researchFormContainer = document.getElementById('research-form-container');
+        const researchForm = document.getElementById('research-form');
+        
+        const researchGrid = document.getElementById('research-grid');
+        const authorCards = document.getElementById('author-cards');
+        const authorSearch = document.getElementById('author-search');
+        
+        const researchModal = document.getElementById('research-modal');
+        const closeModal = document.getElementById('close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalAuthor = document.getElementById('modal-author');
+        const modalDate = document.getElementById('modal-date');
+        const modalBody = document.getElementById('modal-body');
+        const modalActions = document.getElementById('modal-actions');
+        const deleteResearchBtn = document.getElementById('delete-research-btn');
+        
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const confirmDelete = document.getElementById('confirm-delete');
+        const cancelDelete = document.getElementById('cancel-delete');
+        
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        
+        // Funciones
+        function renderResearches() {
+            researchGrid.innerHTML = '';
+            researches.forEach(research => {
+                const card = document.createElement('div');
+                card.className = 'research-card';
+                card.innerHTML = `
+                    <div class="card-image" style="background-color: ${getColorForImage(research.image)}">
+                        ${research.image.toUpperCase()}
+                    </div>
+                    <div class="card-content">
+                        <h3>${research.title}</h3>
+                        <span class="author">${research.author}</span>
+                        <span class="date">${research.date}</span>
+                        <p>${research.content.substring(0, 150)}...</p>
+                        <a href="#" class="read-more" data-id="${research.id}">Leer más</a>
+                    </div>
+                `;
+                researchGrid.appendChild(card);
+            });
+            
+            // Agregar event listeners a los botones "Leer más"
+            document.querySelectorAll('.read-more').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = parseInt(this.getAttribute('data-id'));
+                    showResearchModal(id);
+                });
+            });
+        }
+        
+        function getColorForImage(image) {
+            const colors = {
+                'social': '#3498db',
+                'energy': '#e67e22',
+                'ai': '#9b59b6',
+                'nature': '#2ecc71',
+                'default': '#1a3e72'
+            };
+            return colors[image] || colors.default;
+        }
+        
+        function renderAuthors() {
+            // Obtener lista única de autores
+            const authors = [...new Set(researches.map(research => research.author))];
+            
+            authorCards.innerHTML = '';
+            authors.forEach(author => {
+                // Contar investigaciones por autor
+                const count = researches.filter(r => r.author === author).length;
+                
+                const card = document.createElement('div');
+                card.className = 'author-card';
+                card.innerHTML = `
+                    <div class="author-avatar">${author.charAt(0)}</div>
+                    <h3 class="author-name">${author}</h3>
+                    <div class="author-research-count">${count} investigación${count !== 1 ? 'es' : ''}</div>
+                `;
+                authorCards.appendChild(card);
+            });
+        }
+        
+        function showResearchModal(id) {
+            const research = researches.find(r => r.id === id);
+            if (!research) return;
+            
+            currentResearchId = id;
+            modalTitle.textContent = research.title;
+            modalAuthor.textContent = `Autor: ${research.author}`;
+            modalDate.textContent = `Fecha: ${research.date}`;
+            modalBody.innerHTML = `<p>${research.content}</p>`;
+            
+            // Mostrar acciones solo si el usuario está logueado
+            modalActions.style.display = currentUser ? 'block' : 'none';
+            
+            researchModal.style.display = 'block';
+        }
+        
+        function filterAuthors() {
+            const searchTerm = authorSearch.value.toLowerCase();
+            const cards = document.querySelectorAll('.author-card');
+            
+            cards.forEach(card => {
+                const authorName = card.querySelector('.author-name').textContent.toLowerCase();
+                if (authorName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function showSection(section) {
+            investigacionesSection.style.display = 'none';
+            autoresSection.style.display = 'none';
+            acercaSection.style.display = 'none';
+            loginSection.style.display = 'none';
+            
+            section.style.display = 'block';
+            
+            // Actualizar navegación activa
+            document.querySelectorAll('nav ul li a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (section === investigacionesSection) {
+                navInvestigaciones.classList.add('active');
+            } else if (section === autoresSection) {
+                navAutores.classList.add('active');
+            } else if (section === acercaSection) {
+                navAcerca.classList.add('active');
+            } else if (section === loginSection) {
+                navLogin.classList.add('active');
+            }
+        }
+        
+        function loginUser(email, password) {
+            // Credenciales válidas
+            const validEmail = 'juanpahdezreyes11@gmail.com';
+            const validPassword = 'Cdmv6058Pd2kb3a$';
+            
+            if (email === validEmail && password === validPassword) {
+                currentUser = {
+                    email: email,
+                    name: 'Juan Pérez'
+                };
+                
+                // Actualizar UI
+                newResearchContainer.style.display = 'block';
+                navLogin.style.display = 'none';
+                logoutBtn.style.display = 'block';
+                
+                // Mostrar sección de investigaciones
+                showSection(investigacionesSection);
+                
+                return true;
+            }
+            
+            return false;
+        }
+        
+        function logoutUser() {
+            currentUser = null;
+            
+            // Actualizar UI
+            newResearchContainer.style.display = 'none';
+            researchFormContainer.style.display = 'none';
+            navLogin.style.display = 'block';
+            logoutBtn.style.display = 'none';
+            
+            // Mostrar sección de investigaciones
+            showSection(investigacionesSection);
+        }
+        
+        function addNewResearch(title, author, content) {
+            const newId = researches.length > 0 ? Math.max(...researches.map(r => r.id)) + 1 : 1;
+            const currentDate = new Date().toLocaleDateString('es-MX');
+            const imageOptions = ['social', 'energy', 'ai', 'nature'];
+            const randomImage = imageOptions[Math.floor(Math.random() * imageOptions.length)];
+            
+            const newResearch = {
+                id: newId,
+                title: title,
+                author: author,
+                date: currentDate,
+                content: content,
+                image: randomImage
+            };
+            
+            researches.unshift(newResearch); // Agregar al inicio del array
+            renderResearches();
+            renderAuthors();
+            
+            // Ocultar formulario
+            researchFormContainer.style.display = 'none';
+        }
+        
+        function deleteResearch(id) {
+            researches = researches.filter(r => r.id !== id);
+            renderResearches();
+            renderAuthors();
+            researchModal.style.display = 'none';
+            confirmationModal.style.display = 'none';
+        }
+        
+        // Event Listeners
+        hamburger.addEventListener('click', function() {
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+        
+        navInvestigaciones.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection(investigacionesSection);
+            nav.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+        
+        navAutores.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection(autoresSection);
+            nav.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+        
+        navAcerca.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection(acercaSection);
+            nav.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+        
+        navLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection(loginSection);
+            nav.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+        
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+            nav.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+        
+        newResearchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            researchFormContainer.style.display = researchFormContainer.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        researchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('research-title').value;
+            const author = document.getElementById('research-author').value;
+            const content = document.getElementById('research-content').value;
+            
+            addNewResearch(title, author, content);
+            
+            // Limpiar formulario
+            this.reset();
+        });
+        
+        closeModal.addEventListener('click', function() {
+            researchModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === researchModal) {
+                researchModal.style.display = 'none';
+            }
+            
+            if (e.target === confirmationModal) {
+                confirmationModal.style.display = 'none';
+            }
+        });
+        
+        deleteResearchBtn.addEventListener('click', function() {
+            confirmationModal.style.display = 'block';
+        });
+        
+        confirmDelete.addEventListener('click', function() {
+            deleteResearch(currentResearchId);
+        });
+        
+        cancelDelete.addEventListener('click', function() {
+            confirmationModal.style.display = 'none';
+        });
+        
+        authorSearch.addEventListener('input', filterAuthors);
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            
+            if (loginUser(email, password)) {
+                this.reset();
+            } else {
+                alert('Correo electrónico o contraseña incorrectos');
+            }
+        });
+        
+        // Inicialización
+        renderResearches();
+        renderAuthors();
+        showSection(investigacionesSection);
+    </script>
+</body>
+</html>
