@@ -15,6 +15,7 @@
             --gris-oscuro: #757575;
             --blanco: #ffffff;
             --negro: #333333;
+            --rojo: #e74c3c;
         }
         
         * {
@@ -48,16 +49,6 @@
             margin: 0 auto;
         }
         
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        
         .logo h1 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -70,6 +61,7 @@
         
         nav ul li {
             margin-left: 1.5rem;
+            position: relative;
         }
         
         nav ul li a {
@@ -78,11 +70,11 @@
             font-weight: 500;
             transition: color 0.3s;
             padding: 0.5rem 0;
+            display: block;
         }
         
         nav ul li a:hover {
             color: var(--naranja-accento);
-            border-bottom: 2px solid var(--naranja-accento);
         }
         
         .active {
@@ -107,6 +99,7 @@
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
+            min-height: calc(100vh - 200px);
         }
         
         .welcome-section {
@@ -123,10 +116,6 @@
             margin-bottom: 1rem;
         }
         
-        .welcome-section p {
-            color: var(--gris-oscuro);
-        }
-        
         .research-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -138,12 +127,11 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s;
         }
         
         .research-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .card-image {
@@ -172,13 +160,6 @@
             display: block;
         }
         
-        .card-content .date {
-            color: var(--gris-oscuro);
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        
         .card-content p {
             color: var(--gris-oscuro);
             margin-bottom: 1.5rem;
@@ -188,85 +169,42 @@
             overflow: hidden;
         }
         
-        .read-more {
+        .btn {
             display: inline-block;
-            background-color: var(--naranja-accento);
-            color: var(--blanco);
             padding: 0.5rem 1rem;
             border-radius: 4px;
             text-decoration: none;
             font-weight: 500;
             transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
         }
         
-        .read-more:hover {
+        .btn-primary {
+            background-color: var(--naranja-accento);
+            color: var(--blanco);
+        }
+        
+        .btn-primary:hover {
             background-color: var(--naranja-claro);
         }
         
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 1000;
-            overflow-y: auto;
+        .btn-danger {
+            background-color: var(--rojo);
+            color: var(--blanco);
         }
         
-        .modal-content {
-            background-color: var(--blanco);
-            margin: 2rem auto;
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 800px;
-            width: 90%;
-            position: relative;
+        .btn-danger:hover {
+            background-color: #c0392b;
         }
         
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gris-oscuro);
-        }
-        
-        .modal-title {
-            color: var(--azul-primario);
-            margin-bottom: 1rem;
-        }
-        
-        .modal-author {
-            color: var(--naranja-accento);
-            margin-bottom: 0.5rem;
-        }
-        
-        .modal-date {
-            color: var(--gris-oscuro);
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .modal-body {
-            line-height: 1.8;
-        }
-        
-        .login-form {
-            max-width: 400px;
-            margin: 2rem auto;
+        .login-form, .research-form {
+            max-width: 500px;
+            margin: 0 auto;
             background-color: var(--blanco);
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .login-form h2 {
-            color: var(--azul-primario);
-            margin-bottom: 1.5rem;
-            text-align: center;
         }
         
         .form-group {
@@ -280,7 +218,8 @@
             font-weight: 500;
         }
         
-        .form-group input {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 0.8rem;
             border: 1px solid var(--gris-medio);
@@ -288,135 +227,15 @@
             font-size: 1rem;
         }
         
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--naranja-accento);
-        }
-        
-        .login-btn {
-            width: 100%;
-            background-color: var(--naranja-accento);
-            color: var(--blanco);
-            border: none;
-            padding: 0.8rem;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .login-btn:hover {
-            background-color: var(--naranja-claro);
-        }
-        
-        .logout-btn {
-            background-color: transparent;
-            color: var(--blanco);
-            border: 1px solid var(--blanco);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-left: 1.5rem;
-        }
-        
-        .logout-btn:hover {
-            background-color: var(--blanco);
-            color: var(--azul-primario);
-        }
-        
-        .new-research-btn {
-            display: inline-block;
-            background-color: var(--naranja-accento);
-            color: var(--blanco);
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s;
-            margin-bottom: 1.5rem;
-        }
-        
-        .new-research-btn:hover {
-            background-color: var(--naranja-claro);
-        }
-        
-        .research-form {
-            background-color: var(--blanco);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-        
-        .research-form h2 {
-            color: var(--azul-primario);
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-control {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-control label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--azul-primario);
-            font-weight: 500;
-        }
-        
-        .form-control input,
-        .form-control textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid var(--gris-medio);
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        .form-control textarea {
+        .form-group textarea {
             min-height: 150px;
             resize: vertical;
         }
         
-        .form-control input:focus,
-        .form-control textarea:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--naranja-accento);
-        }
-        
-        .submit-btn {
-            background-color: var(--naranja-accento);
-            color: var(--blanco);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .submit-btn:hover {
-            background-color: var(--naranja-claro);
-        }
-        
-        .delete-btn {
-            background-color: #e74c3c;
-            color: var(--blanco);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 1rem;
-        }
-        
-        .delete-btn:hover {
-            background-color: #c0392b;
         }
         
         .authors-list {
@@ -424,11 +243,6 @@
             border-radius: 8px;
             padding: 2rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .authors-list h2 {
-            color: var(--azul-primario);
-            margin-bottom: 1.5rem;
         }
         
         .author-filter {
@@ -443,11 +257,6 @@
             font-size: 1rem;
         }
         
-        .author-filter input:focus {
-            outline: none;
-            border-color: var(--naranja-accento);
-        }
-        
         .author-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -459,11 +268,13 @@
             border-radius: 8px;
             padding: 1.5rem;
             text-align: center;
-            transition: transform 0.3s;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
         .author-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .author-avatar {
@@ -479,16 +290,6 @@
             margin: 0 auto 1rem;
         }
         
-        .author-name {
-            color: var(--azul-primario);
-            margin-bottom: 0.5rem;
-        }
-        
-        .author-research-count {
-            color: var(--naranja-accento);
-            font-size: 0.9rem;
-        }
-        
         .about-section {
             background-color: var(--blanco);
             border-radius: 8px;
@@ -496,83 +297,63 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        .about-section h2 {
-            color: var(--azul-primario);
-            margin-bottom: 1.5rem;
-        }
-        
-        .about-section p {
-            margin-bottom: 1rem;
-        }
-        
         footer {
             background-color: var(--azul-primario);
             color: var(--blanco);
             text-align: center;
             padding: 1.5rem;
-            margin-top: 2rem;
         }
         
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .confirmation-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 1000;
-        }
-        
-        .confirmation-content {
+        /* Página completa de investigación */
+        .research-full {
             background-color: var(--blanco);
-            margin: 20% auto;
-            padding: 2rem;
             border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        .confirmation-buttons {
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
+        .research-full h1 {
+            color: var(--azul-primario);
+            margin-bottom: 1rem;
         }
         
-        .confirmation-buttons button {
-            padding: 0.5rem 1.5rem;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
+        .research-meta {
+            color: var(--naranja-accento);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gris-medio);
         }
         
-        .confirm-btn {
-            background-color: #e74c3c;
-            color: var(--blanco);
-            border: none;
+        .research-content {
+            line-height: 1.8;
+            margin-bottom: 2rem;
         }
         
-        .confirm-btn:hover {
-            background-color: #c0392b;
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--azul-primario);
+            text-decoration: none;
+            font-weight: 500;
         }
         
-        .cancel-btn {
-            background-color: var(--gris-medio);
-            color: var(--negro);
-            border: none;
+        .back-btn:hover {
+            text-decoration: underline;
         }
         
-        .cancel-btn:hover {
-            background-color: #bdbdbd;
+        /* Sección de investigaciones por autor */
+        .author-researches {
+            margin-top: 1rem;
         }
         
+        .author-researches-title {
+            color: var(--azul-primario);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--naranja-accento);
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Estilos para móviles */
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -596,7 +377,6 @@
             nav ul li {
                 margin: 0;
                 padding: 0.5rem 0;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
             }
             
             .hamburger {
@@ -606,9 +386,8 @@
                 right: 1rem;
             }
             
-            .logout-btn {
-                margin: 1rem 0 0;
-                width: 100%;
+            .research-grid, .author-cards {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -630,7 +409,7 @@
                     <li><a href="#" id="nav-autores">Autores</a></li>
                     <li><a href="#" id="nav-acerca">Acerca de</a></li>
                     <li><a href="#" id="nav-login">Iniciar sesión</a></li>
-                    <li><button class="logout-btn" id="logout-btn" style="display: none;">Cerrar sesión</button></li>
+                    <li><a href="#" id="logout-btn" style="display: none;">Cerrar sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -640,49 +419,60 @@
         <!-- Sección de Investigaciones -->
         <section id="investigaciones-section">
             <div class="welcome-section">
-                <h2>Bienvenido al Blog de Investigaciones del Colegio Tlahtoani</h2>
-                <p>Explora las investigaciones realizadas por nuestros estudiantes. Este espacio está dedicado a compartir conocimiento, fomentar la curiosidad científica y promover el aprendizaje colaborativo.</p>
+                <h2>Bienvenido al Blog de Investigaciones</h2>
+                <p>Explora las investigaciones realizadas por los alumnos del Colegio Tlahtoani. Comparte conocimiento y descubre nuevos temas académicos.</p>
             </div>
             
             <div id="new-research-container" style="display: none;">
-                <a href="#" class="new-research-btn" id="new-research-btn">Nueva Investigación</a>
+                <button class="btn btn-primary" id="new-research-btn">Nueva Investigación</button>
             </div>
             
             <div id="research-form-container" style="display: none;">
                 <div class="research-form">
-                    <h2>Crear Nueva Investigación</h2>
+                    <h2>Nueva Investigación</h2>
                     <form id="research-form">
-                        <div class="form-control">
+                        <div class="form-group">
                             <label for="research-title">Título</label>
                             <input type="text" id="research-title" required>
                         </div>
-                        <div class="form-control">
+                        <div class="form-group">
                             <label for="research-author">Autor</label>
                             <input type="text" id="research-author" required>
                         </div>
-                        <div class="form-control">
+                        <div class="form-group">
                             <label for="research-content">Contenido</label>
                             <textarea id="research-content" required></textarea>
                         </div>
-                        <button type="submit" class="submit-btn">Publicar Investigación</button>
+                        <button type="submit" class="btn btn-primary">Publicar</button>
                     </form>
                 </div>
             </div>
             
             <div class="research-grid" id="research-grid">
-                <!-- Las tarjetas de investigación se generarán aquí con JavaScript -->
+                <!-- Las tarjetas se generan con JavaScript -->
             </div>
         </section>
         
         <!-- Sección de Autores -->
         <section id="autores-section" style="display: none;">
-            <div class="authors-list">
+            <div id="authors-list" class="authors-list">
                 <h2>Autores</h2>
                 <div class="author-filter">
                     <input type="text" id="author-search" placeholder="Buscar autor...">
                 </div>
                 <div class="author-cards" id="author-cards">
-                    <!-- Las tarjetas de autores se generarán aquí con JavaScript -->
+                    <!-- Las tarjetas de autores se generan con JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Sección de investigaciones por autor -->
+            <div id="author-researches-section" style="display: none;">
+                <a href="#" class="back-btn" id="back-to-authors-btn">← Volver a Autores</a>
+                <div class="author-researches">
+                    <h2 class="author-researches-title">Investigaciones de <span id="author-name"></span></h2>
+                    <div class="research-grid" id="author-researches-grid">
+                        <!-- Investigaciones del autor seleccionado -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -690,11 +480,10 @@
         <!-- Sección Acerca de -->
         <section id="acerca-section" style="display: none;">
             <div class="about-section">
-                <h2>Acerca del Blog de Investigaciones</h2>
-                <p>El Blog de Investigaciones del Colegio Tlahtoani es una plataforma creada para que los estudiantes puedan compartir sus trabajos de investigación con la comunidad escolar.</p>
-                <p>Nuestro objetivo es fomentar la investigación científica, el pensamiento crítico y la difusión del conocimiento entre los estudiantes.</p>
-                <p>Este espacio está abierto a todas las áreas del conocimiento y promueve la colaboración entre estudiantes de diferentes grados y especialidades.</p>
-                <p>Los colores institucionales (azul y naranja) representan nuestra identidad escolar, donde el azul simboliza la sabiduría y el conocimiento, mientras que el naranja representa la energía y creatividad de nuestros estudiantes.</p>
+                <h2>Acerca del Blog</h2>
+                <p>Este blog es una plataforma para que los alumnos del Colegio Tlahtoani compartan sus investigaciones académicas con la comunidad escolar.</p>
+                <p>Nuestro objetivo es fomentar la investigación, el pensamiento crítico y el intercambio de conocimientos entre estudiantes.</p>
+                <p>Los colores azul y naranja representan nuestra identidad institucional, combinando la seriedad académica con la creatividad juvenil.</p>
             </div>
         </section>
         
@@ -711,55 +500,33 @@
                         <label for="password">Contraseña</label>
                         <input type="password" id="password" required>
                     </div>
-                    <button type="submit" class="login-btn">Iniciar Sesión</button>
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
                 </form>
+            </div>
+        </section>
+        
+        <!-- Página completa de investigación -->
+        <section id="full-research-section" style="display: none;">
+            <a href="#" class="back-btn" id="back-to-researches-btn">← Volver a Investigaciones</a>
+            <div class="research-full" id="full-research-content">
+                <!-- Contenido completo de la investigación -->
             </div>
         </section>
     </main>
     
-    <!-- Modal para mostrar investigación completa -->
-    <div class="modal" id="research-modal">
-        <div class="modal-content">
-            <span class="close-modal" id="close-modal">&times;</span>
-            <h2 class="modal-title" id="modal-title">Título de la Investigación</h2>
-            <div class="modal-author" id="modal-author">Autor: Nombre del Autor</div>
-            <div class="modal-date" id="modal-date">Fecha: 01/01/2023</div>
-            <div class="modal-body" id="modal-body">
-                <p>Contenido completo de la investigación...</p>
-            </div>
-            <div id="modal-actions" style="display: none;">
-                <button class="delete-btn" id="delete-research-btn">Eliminar Investigación</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal de confirmación para eliminar -->
-    <div class="confirmation-modal" id="confirmation-modal">
-        <div class="confirmation-content">
-            <h3>¿Estás seguro que deseas eliminar esta investigación?</h3>
-            <p>Esta acción no se puede deshacer.</p>
-            <div class="confirmation-buttons">
-                <button class="confirm-btn" id="confirm-delete">Eliminar</button>
-                <button class="cancel-btn" id="cancel-delete">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    
     <footer>
-        <div class="footer-container">
-            <p>&copy; 2023 Colegio Tlahtoani - Todos los derechos reservados</p>
-        </div>
+        <p>&copy; 2023 Colegio Tlahtoani - Todos los derechos reservados</p>
     </footer>
     
     <script>
-        // Datos de ejemplo (en un caso real, estos vendrían de una base de datos)
+        // Datos iniciales
         let researches = [
             {
                 id: 1,
                 title: "El impacto de las redes sociales en el aprendizaje",
                 author: "María González",
                 date: "15/05/2023",
-                content: "Esta investigación explora cómo las redes sociales afectan el rendimiento académico de los estudiantes de secundaria. Se realizó un estudio con 200 alumnos de diferentes escuelas, analizando el tiempo que pasan en redes sociales y su correlación con las calificaciones. Los resultados muestran que un uso moderado puede ser beneficioso para el aprendizaje colaborativo, pero el exceso tiene efectos negativos significativos.",
+                content: "Esta investigación explora cómo las redes sociales afectan el rendimiento académico de los estudiantes de secundaria. Los resultados muestran que un uso moderado puede ser beneficioso para el aprendizaje colaborativo, pero el exceso tiene efectos negativos significativos.",
                 image: "social"
             },
             {
@@ -767,75 +534,66 @@
                 title: "Energías renovables: el futuro de México",
                 author: "Juan Pérez",
                 date: "22/04/2023",
-                content: "Análisis del potencial de México para convertirse en líder en energías renovables. La investigación compara los recursos naturales disponibles con las políticas energéticas actuales y propone un plan para aumentar la producción de energía solar y eólica en un 50% para 2030. Se incluyen estudios de caso de comunidades rurales que ya han implementado estas tecnologías con éxito.",
+                content: "Análisis del potencial de México para convertirse en líder en energías renovables. La investigación compara los recursos naturales disponibles con las políticas energéticas actuales y propone un plan para aumentar la producción de energía solar y eólica.",
                 image: "energy"
             },
             {
                 id: 3,
                 title: "Inteligencia artificial en la educación",
-                author: "Ana López",
+                author: "Juan Pérez",
                 date: "10/03/2023",
-                content: "Exploración de las aplicaciones de la IA en el ámbito educativo. La investigación detalla cómo los sistemas de aprendizaje adaptativo pueden personalizar la educación para cada estudiante, analizando sus fortalezas y debilidades. También se discuten los desafíos éticos y la importancia de mantener el elemento humano en la enseñanza.",
+                content: "Exploración de las aplicaciones de la IA en el ámbito educativo. La investigación detalla cómo los sistemas de aprendizaje adaptativo pueden personalizar la educación para cada estudiante, analizando sus fortalezas y debilidades.",
                 image: "ai"
-            },
-            {
-                id: 4,
-                title: "Conservación de la biodiversidad local",
-                author: "Carlos Martínez",
-                date: "28/02/2023",
-                content: "Estudio de 12 meses sobre las especies endémicas de nuestra región y los peligros que enfrentan debido a la urbanización. La investigación incluye un catálogo detallado de 45 especies de plantas y 23 de animales, con recomendaciones para programas de conservación que pueden implementarse en colaboración con la comunidad escolar.",
-                image: "nature"
             }
         ];
         
-        // Variables de estado
+        // Estado de la aplicación
         let currentUser = null;
-        let currentResearchId = null;
+        let currentSection = 'investigaciones';
         
         // Elementos del DOM
         const hamburger = document.getElementById('hamburger');
         const nav = document.getElementById('nav');
-        const navInvestigaciones = document.getElementById('nav-investigaciones');
-        const navAutores = document.getElementById('nav-autores');
-        const navAcerca = document.getElementById('nav-acerca');
-        const navLogin = document.getElementById('nav-login');
-        const logoutBtn = document.getElementById('logout-btn');
+        const navLinks = {
+            investigaciones: document.getElementById('nav-investigaciones'),
+            autores: document.getElementById('nav-autores'),
+            acerca: document.getElementById('nav-acerca'),
+            login: document.getElementById('nav-login'),
+            logout: document.getElementById('logout-btn')
+        };
         
-        const investigacionesSection = document.getElementById('investigaciones-section');
-        const autoresSection = document.getElementById('autores-section');
-        const acercaSection = document.getElementById('acerca-section');
-        const loginSection = document.getElementById('login-section');
+        const sections = {
+            investigaciones: document.getElementById('investigaciones-section'),
+            autores: document.getElementById('autores-section'),
+            acerca: document.getElementById('acerca-section'),
+            login: document.getElementById('login-section'),
+            fullResearch: document.getElementById('full-research-section')
+        };
         
         const newResearchContainer = document.getElementById('new-research-container');
         const newResearchBtn = document.getElementById('new-research-btn');
         const researchFormContainer = document.getElementById('research-form-container');
         const researchForm = document.getElementById('research-form');
-        
         const researchGrid = document.getElementById('research-grid');
-        const authorCards = document.getElementById('author-cards');
+        
         const authorSearch = document.getElementById('author-search');
+        const authorCards = document.getElementById('author-cards');
+        const authorsList = document.getElementById('authors-list');
+        const authorResearchesSection = document.getElementById('author-researches-section');
+        const authorResearchesGrid = document.getElementById('author-researches-grid');
+        const authorNameSpan = document.getElementById('author-name');
+        const backToAuthorsBtn = document.getElementById('back-to-authors-btn');
         
-        const researchModal = document.getElementById('research-modal');
-        const closeModal = document.getElementById('close-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalAuthor = document.getElementById('modal-author');
-        const modalDate = document.getElementById('modal-date');
-        const modalBody = document.getElementById('modal-body');
-        const modalActions = document.getElementById('modal-actions');
-        const deleteResearchBtn = document.getElementById('delete-research-btn');
-        
-        const confirmationModal = document.getElementById('confirmation-modal');
-        const confirmDelete = document.getElementById('confirm-delete');
-        const cancelDelete = document.getElementById('cancel-delete');
+        const fullResearchSection = document.getElementById('full-research-section');
+        const fullResearchContent = document.getElementById('full-research-content');
+        const backToResearchesBtn = document.getElementById('back-to-researches-btn');
         
         const loginForm = document.getElementById('login-form');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
         
-        // Funciones
-        function renderResearches() {
-            researchGrid.innerHTML = '';
-            researches.forEach(research => {
+        // Funciones principales
+        function renderResearches(researchesToRender, container) {
+            container.innerHTML = '';
+            researchesToRender.forEach(research => {
                 const card = document.createElement('div');
                 card.className = 'research-card';
                 card.innerHTML = `
@@ -845,21 +603,43 @@
                     <div class="card-content">
                         <h3>${research.title}</h3>
                         <span class="author">${research.author}</span>
-                        <span class="date">${research.date}</span>
                         <p>${research.content.substring(0, 150)}...</p>
-                        <a href="#" class="read-more" data-id="${research.id}">Leer más</a>
+                        <a href="#research-${research.id}" class="btn btn-primary read-more" data-id="${research.id}">Leer más</a>
                     </div>
                 `;
-                researchGrid.appendChild(card);
+                container.appendChild(card);
             });
             
-            // Agregar event listeners a los botones "Leer más"
-            document.querySelectorAll('.read-more').forEach(button => {
-                button.addEventListener('click', function(e) {
+            // Agregar eventos a los botones "Leer más"
+            container.querySelectorAll('.read-more').forEach(btn => {
+                btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const id = parseInt(this.getAttribute('data-id'));
-                    showResearchModal(id);
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    showFullResearch(id);
                 });
+            });
+        }
+        
+        function renderAuthors() {
+            const authors = [...new Set(researches.map(r => r.author))];
+            authorCards.innerHTML = '';
+            
+            authors.forEach(author => {
+                const count = researches.filter(r => r.author === author).length;
+                const card = document.createElement('div');
+                card.className = 'author-card';
+                card.innerHTML = `
+                    <div class="author-avatar">${author.charAt(0)}</div>
+                    <h3 class="author-name">${author}</h3>
+                    <div class="author-research-count">${count} investigación${count !== 1 ? 'es' : ''}</div>
+                `;
+                
+                // Evento para mostrar investigaciones del autor
+                card.addEventListener('click', () => {
+                    showAuthorResearches(author);
+                });
+                
+                authorCards.appendChild(card);
             });
         }
         
@@ -874,98 +654,96 @@
             return colors[image] || colors.default;
         }
         
-        function renderAuthors() {
-            // Obtener lista única de autores
-            const authors = [...new Set(researches.map(research => research.author))];
+        function showAuthorResearches(authorName) {
+            const authorResearches = researches.filter(r => r.author === authorName);
             
-            authorCards.innerHTML = '';
-            authors.forEach(author => {
-                // Contar investigaciones por autor
-                const count = researches.filter(r => r.author === author).length;
-                
-                const card = document.createElement('div');
-                card.className = 'author-card';
-                card.innerHTML = `
-                    <div class="author-avatar">${author.charAt(0)}</div>
-                    <h3 class="author-name">${author}</h3>
-                    <div class="author-research-count">${count} investigación${count !== 1 ? 'es' : ''}</div>
-                `;
-                authorCards.appendChild(card);
-            });
+            authorNameSpan.textContent = authorName;
+            renderResearches(authorResearches, authorResearchesGrid);
+            
+            // Mostrar investigaciones del autor y ocultar lista
+            authorsList.style.display = 'none';
+            authorResearchesSection.style.display = 'block';
         }
         
-        function showResearchModal(id) {
+        function showFullResearch(id) {
             const research = researches.find(r => r.id === id);
             if (!research) return;
             
-            currentResearchId = id;
-            modalTitle.textContent = research.title;
-            modalAuthor.textContent = `Autor: ${research.author}`;
-            modalDate.textContent = `Fecha: ${research.date}`;
-            modalBody.innerHTML = `<p>${research.content}</p>`;
+            fullResearchContent.innerHTML = `
+                <h1>${research.title}</h1>
+                <div class="research-meta">
+                    <p><strong>Autor:</strong> ${research.author}</p>
+                    <p><strong>Fecha:</strong> ${research.date}</p>
+                </div>
+                <div class="research-content">
+                    <p>${research.content}</p>
+                </div>
+                ${currentUser ? `<button class="btn btn-danger" id="delete-research-btn">Eliminar Investigación</button>` : ''}
+            `;
             
-            // Mostrar acciones solo si el usuario está logueado
-            modalActions.style.display = currentUser ? 'block' : 'none';
+            // Mostrar sección de investigación completa
+            hideAllSections();
+            fullResearchSection.style.display = 'block';
+            currentSection = 'full-research';
             
-            researchModal.style.display = 'block';
-        }
-        
-        function filterAuthors() {
-            const searchTerm = authorSearch.value.toLowerCase();
-            const cards = document.querySelectorAll('.author-card');
-            
-            cards.forEach(card => {
-                const authorName = card.querySelector('.author-name').textContent.toLowerCase();
-                if (authorName.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-        
-        function showSection(section) {
-            investigacionesSection.style.display = 'none';
-            autoresSection.style.display = 'none';
-            acercaSection.style.display = 'none';
-            loginSection.style.display = 'none';
-            
-            section.style.display = 'block';
-            
-            // Actualizar navegación activa
-            document.querySelectorAll('nav ul li a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            if (section === investigacionesSection) {
-                navInvestigaciones.classList.add('active');
-            } else if (section === autoresSection) {
-                navAutores.classList.add('active');
-            } else if (section === acercaSection) {
-                navAcerca.classList.add('active');
-            } else if (section === loginSection) {
-                navLogin.classList.add('active');
+            // Configurar botón de eliminar si está logueado
+            if (currentUser) {
+                document.getElementById('delete-research-btn').addEventListener('click', () => {
+                    deleteResearch(id);
+                });
             }
         }
         
-        function loginUser(email, password) {
+        function showSection(sectionName) {
+            currentSection = sectionName;
+            hideAllSections();
+            
+            // Mostrar la sección solicitada
+            sections[sectionName].style.display = 'block';
+            
+            // Configuración especial para la sección de autores
+            if (sectionName === 'autores') {
+                authorsList.style.display = 'block';
+                authorResearchesSection.style.display = 'none';
+            }
+            
+            // Actualizar navegación activa
+            Object.values(navLinks).forEach(link => {
+                if (link) link.classList.remove('active');
+            });
+            
+            if (sectionName === 'investigaciones') {
+                navLinks.investigaciones.classList.add('active');
+            } else if (sectionName === 'autores') {
+                navLinks.autores.classList.add('active');
+            } else if (sectionName === 'acerca') {
+                navLinks.acerca.classList.add('active');
+            } else if (sectionName === 'login') {
+                navLinks.login.classList.add('active');
+            }
+        }
+        
+        function hideAllSections() {
+            Object.values(sections).forEach(section => {
+                if (section) section.style.display = 'none';
+            });
+        }
+        
+        function login(email, password) {
             // Credenciales válidas
             const validEmail = 'juanpahdezreyes11@gmail.com';
             const validPassword = 'Cdmv6058Pd2kb3a$';
             
             if (email === validEmail && password === validPassword) {
-                currentUser = {
-                    email: email,
-                    name: 'Juan Pérez'
-                };
+                currentUser = { email, name: 'Juan Pérez' };
                 
                 // Actualizar UI
                 newResearchContainer.style.display = 'block';
-                navLogin.style.display = 'none';
-                logoutBtn.style.display = 'block';
+                navLinks.login.style.display = 'none';
+                navLinks.logout.style.display = 'block';
                 
                 // Mostrar sección de investigaciones
-                showSection(investigacionesSection);
+                showSection('investigaciones');
                 
                 return true;
             }
@@ -973,152 +751,153 @@
             return false;
         }
         
-        function logoutUser() {
+        function logout() {
             currentUser = null;
-            
-            // Actualizar UI
             newResearchContainer.style.display = 'none';
             researchFormContainer.style.display = 'none';
-            navLogin.style.display = 'block';
-            logoutBtn.style.display = 'none';
-            
-            // Mostrar sección de investigaciones
-            showSection(investigacionesSection);
+            navLinks.login.style.display = 'block';
+            navLinks.logout.style.display = 'none';
+            showSection('investigaciones');
         }
         
-        function addNewResearch(title, author, content) {
+        function addResearch(title, author, content) {
             const newId = researches.length > 0 ? Math.max(...researches.map(r => r.id)) + 1 : 1;
-            const currentDate = new Date().toLocaleDateString('es-MX');
-            const imageOptions = ['social', 'energy', 'ai', 'nature'];
-            const randomImage = imageOptions[Math.floor(Math.random() * imageOptions.length)];
+            const date = new Date().toLocaleDateString('es-MX');
+            const images = ['social', 'energy', 'ai', 'nature'];
+            const randomImage = images[Math.floor(Math.random() * images.length)];
             
-            const newResearch = {
+            researches.unshift({
                 id: newId,
-                title: title,
-                author: author,
-                date: currentDate,
-                content: content,
+                title,
+                author,
+                date,
+                content,
                 image: randomImage
-            };
+            });
             
-            researches.unshift(newResearch); // Agregar al inicio del array
-            renderResearches();
+            renderResearches(researches, researchGrid);
             renderAuthors();
-            
-            // Ocultar formulario
             researchFormContainer.style.display = 'none';
+            researchForm.reset();
         }
         
         function deleteResearch(id) {
-            researches = researches.filter(r => r.id !== id);
-            renderResearches();
-            renderAuthors();
-            researchModal.style.display = 'none';
-            confirmationModal.style.display = 'none';
+            if (confirm('¿Estás seguro de eliminar esta investigación? Esta acción no se puede deshacer.')) {
+                researches = researches.filter(r => r.id !== id);
+                
+                // Volver a la sección adecuada
+                if (currentSection === 'full-research') {
+                    showSection('investigaciones');
+                }
+                
+                renderResearches(researches, researchGrid);
+                renderAuthors();
+                
+                // Si estamos viendo investigaciones por autor, actualizar esa vista también
+                if (authorResearchesSection.style.display === 'block') {
+                    const authorName = authorNameSpan.textContent;
+                    const authorResearches = researches.filter(r => r.author === authorName);
+                    renderResearches(authorResearches, authorResearchesGrid);
+                }
+            }
         }
         
         // Event Listeners
-        hamburger.addEventListener('click', function() {
+        hamburger.addEventListener('click', () => {
             nav.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
         
-        navInvestigaciones.addEventListener('click', function(e) {
+        // Navegación
+        navLinks.investigaciones.addEventListener('click', (e) => {
             e.preventDefault();
-            showSection(investigacionesSection);
+            showSection('investigaciones');
             nav.classList.remove('active');
             hamburger.classList.remove('active');
         });
         
-        navAutores.addEventListener('click', function(e) {
+        navLinks.autores.addEventListener('click', (e) => {
             e.preventDefault();
-            showSection(autoresSection);
+            showSection('autores');
             nav.classList.remove('active');
             hamburger.classList.remove('active');
         });
         
-        navAcerca.addEventListener('click', function(e) {
+        navLinks.acerca.addEventListener('click', (e) => {
             e.preventDefault();
-            showSection(acercaSection);
+            showSection('acerca');
             nav.classList.remove('active');
             hamburger.classList.remove('active');
         });
         
-        navLogin.addEventListener('click', function(e) {
+        navLinks.login.addEventListener('click', (e) => {
             e.preventDefault();
-            showSection(loginSection);
+            showSection('login');
             nav.classList.remove('active');
             hamburger.classList.remove('active');
         });
         
-        logoutBtn.addEventListener('click', function(e) {
+        navLinks.logout.addEventListener('click', (e) => {
             e.preventDefault();
-            logoutUser();
+            logout();
             nav.classList.remove('active');
             hamburger.classList.remove('active');
         });
         
-        newResearchBtn.addEventListener('click', function(e) {
+        // Botones de retroceso
+        backToAuthorsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            authorsList.style.display = 'block';
+            authorResearchesSection.style.display = 'none';
+        });
+        
+        backToResearchesBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSection('investigaciones');
+        });
+        
+        // Formularios
+        newResearchBtn.addEventListener('click', (e) => {
             e.preventDefault();
             researchFormContainer.style.display = researchFormContainer.style.display === 'none' ? 'block' : 'none';
         });
         
-        researchForm.addEventListener('submit', function(e) {
+        researchForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const title = document.getElementById('research-title').value;
             const author = document.getElementById('research-author').value;
             const content = document.getElementById('research-content').value;
             
-            addNewResearch(title, author, content);
-            
-            // Limpiar formulario
-            this.reset();
+            addResearch(title, author, content);
         });
         
-        closeModal.addEventListener('click', function() {
-            researchModal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === researchModal) {
-                researchModal.style.display = 'none';
-            }
-            
-            if (e.target === confirmationModal) {
-                confirmationModal.style.display = 'none';
-            }
-        });
-        
-        deleteResearchBtn.addEventListener('click', function() {
-            confirmationModal.style.display = 'block';
-        });
-        
-        confirmDelete.addEventListener('click', function() {
-            deleteResearch(currentResearchId);
-        });
-        
-        cancelDelete.addEventListener('click', function() {
-            confirmationModal.style.display = 'none';
-        });
-        
-        authorSearch.addEventListener('input', filterAuthors);
-        
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = emailInput.value;
-            const password = passwordInput.value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
-            if (loginUser(email, password)) {
-                this.reset();
+            if (login(email, password)) {
+                loginForm.reset();
             } else {
-                alert('Correo electrónico o contraseña incorrectos');
+                alert('Credenciales incorrectas. Intente nuevamente.');
             }
+        });
+        
+        // Filtro de autores
+        authorSearch.addEventListener('input', () => {
+            const searchTerm = authorSearch.value.toLowerCase();
+            const cards = document.querySelectorAll('.author-card');
+            
+            cards.forEach(card => {
+                const author = card.querySelector('.author-name').textContent.toLowerCase();
+                card.style.display = author.includes(searchTerm) ? 'block' : 'none';
+            });
         });
         
         // Inicialización
-        renderResearches();
+        renderResearches(researches, researchGrid);
         renderAuthors();
-        showSection(investigacionesSection);
+        showSection('investigaciones');
     </script>
 </body>
 </html>
